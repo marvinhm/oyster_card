@@ -14,4 +14,10 @@ describe OysterCard do
     end
   end
 
+  describe '#top_up' do
+    it 'Raises an error if balance exceeds 90' do
+
+      expect{subject.top_up(100)}.to raise_error 'Top-Up Limit Reached!'
+    end
+  end
 end
