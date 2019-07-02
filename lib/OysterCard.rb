@@ -5,7 +5,8 @@ class OysterCard
 
   def initialize
     @balance = 0
-    #@in_journey = false
+    @history = []
+    @journey = {}
   end
 
   def top_up(amount)
@@ -18,14 +19,23 @@ class OysterCard
     raise 'You have already tapped in!' if in_journey?
     raise 'You have insufficient funds' if min?
     #@in_journey = true
+    @journey[:entry] = entry_station
+    @history << @journey
     @entry_station = entry_station
   end
 
-  def touch_out
+  def touch_out(exit_station)
     raise 'You have not tapped in!' if !in_journey?
     deduct(MIN_BALANCE)
     @entry_station = nil
+    @journey = {}
+    @journey[:exit] = exit_station
+    @history << @journey
     in_journey?
+  end
+
+  def journey_history
+    @history
   end
 
   def in_journey?
