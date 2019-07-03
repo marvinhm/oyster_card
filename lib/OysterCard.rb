@@ -20,17 +20,14 @@ class OysterCard
     raise 'You have insufficient funds' if min?
     #@in_journey = true
     @journey[:entry] = entry_station
-    @history << @journey
     @entry_station = entry_station
   end
 
   def touch_out(exit_station)
     raise 'You have not tapped in!' if !in_journey?
     deduct(MIN_BALANCE)
+    @history << {entry: @entry_station, exit: exit_station}
     @entry_station = nil
-    @journey = {}
-    @journey[:exit] = exit_station
-    @history << @journey
     in_journey?
   end
 
