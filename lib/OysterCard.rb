@@ -18,13 +18,13 @@ class OysterCard
 
   def touch_in(entry_station)
     @journey.start(entry_station)
-    raise 'You have already tapped in!' if journey.complete?
     raise 'You have insufficient funds' if min?
+    raise 'You have already tapped in!' if @journey.journey
   end
 
   def touch_out(exit_station)
     @journey.end(exit_station)
-    raise 'You have not tapped in!' if !journey.complete?
+    raise 'You have not tapped in!' if !@journey.journey
     deduct(MIN_BALANCE)
   end
 

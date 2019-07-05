@@ -1,10 +1,11 @@
 class Journey
-  attr_reader :current_journey, :history
+  attr_reader :journey, :history
 
   PENALTY_FARE = 6
   DEFAULT_FARE = 1
 
   def initialize
+    @journey
     @current_journey = {}
     @history = []
   end
@@ -16,15 +17,15 @@ class Journey
   end
 
   def end(exit_station)
-    @journey = true
+    @journey = true if completed?
     @exit_station = exit_station
     @current_journey[:exit_station] = exit_station
     @history << @current_journey
     @current_journey = {}
   end
 
-  def complete?
-    @journey
+  def completed?
+   @current_journey[:entry_station] != nil
   end
 
   def fare

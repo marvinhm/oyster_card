@@ -7,7 +7,7 @@ describe Journey do
   describe '#start' do
     it 'starts a journey' do
       subject.start(enter_station)
-      expect(subject.complete?).to eq false
+      expect(subject.completed?).to eq true
     end
 
     it 'returns a station on start' do
@@ -27,7 +27,7 @@ describe Journey do
   describe '#end' do
     it 'Should confrm user has ended their journey' do
       subject.start(enter_station)
-      expect{subject.end(exit_station)}.to change{subject.complete?}.to true
+      expect{subject.end(exit_station)}.to change{subject.completed?}.to false
     end
   end
 end

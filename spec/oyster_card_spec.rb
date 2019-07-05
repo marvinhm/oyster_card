@@ -33,41 +33,13 @@ describe OysterCard do
   # end
 
   describe '#touch_in' do
-    it 'raise error if user is taps in while already in journey' do
-      subject.top_up(minimum_balance)
-      subject.touch_in(enter_station)
-      expect { subject.touch_in(enter_station) }.to raise_error('You have already tapped in!')
-    end
-
     it 'raise error if balance is less than the minimum fare' do
       expect { subject.touch_in(enter_station) }.to raise_error('You have insufficient funds')
-    end
-  end
-
-  describe '#touch_out' do
-    it 'Should confrm user has ended their journey' do
-      subject.top_up(minimum_balance)
-      subject.touch_in(enter_station)
-      subject.touch_out(exit_station)
-      expect(subject.in_journey?).to eq(false)
     end
 
     it 'raise error if user hasn not tapped in' do
       subject.top_up(minimum_balance)
       expect { subject.touch_out(exit_station) }.to raise_error('You have not tapped in!')
-    end
-
-    it 'deducts fare price from balance' do
-      subject.top_up(minimum_balance)
-      subject.touch_in(enter_station)
-      expect { subject.touch_out(exit_station) }.to change { subject.balance }.from(minimum_balance).to(0)
-    end
-
-    it 'forgets name of the entry station when tapping out' do
-      subject.top_up(minimum_balance)
-      subject.touch_in(enter_station)
-      subject.touch_out(exit_station)
-      expect(subject.entry_station).to eq nil
     end
   end
 
@@ -76,11 +48,11 @@ describe OysterCard do
       subject.top_up(minimum_balance)
       subject.touch_in(enter_station)
       subject.touch_out(exit_station)
-      expect(subject.journey_history).to include({entry: enter_station, exit: exit_station})
+      expect(subject.history).to include(entry_station: enter_station, exit_station: exit_station)
     end
 
     it 'Should show an empty list if no journeys have been made' do
-      expect(subject.journey_history).to eq([])
+      expect(subject.history).to eq([])
     end
   end
 end
